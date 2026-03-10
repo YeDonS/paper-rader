@@ -118,6 +118,12 @@ cd output
 python3 -m http.server 8765
 ```
 
+Or start the local realtime deep-read server:
+
+```bash
+python3 scripts/serve_local.py
+```
+
 Open in browser:
 
 - Dashboard: `http://localhost:8765`
@@ -154,6 +160,8 @@ This script will:
 2. stage changes
 3. create a commit if needed
 4. push to the configured remote repository
+
+For local realtime generation, run `python3 scripts/serve_local.py` after building. The GitHub-hosted pages keep the pre-generated fallback pages.
 
 ---
 
