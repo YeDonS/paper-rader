@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>VLN-Cache: Enabling Token Caching for VLN Models with Visual/Semantic Dynamics Awareness · 自动精读</title><style>
+:root{--bg:#0b1020;--panel:#121a30;--soft:#1a2442;--text:#ecf2ff;--muted:#9fb0d1;--accent:#7c9cff;--good:#5bd6a1}*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,sans-serif;background:radial-gradient(circle at top,#18254f 0,#0b1020 45%,#0b1020 100%);color:var(--text)}.wrap{max-width:1280px;margin:0 auto;padding:24px 20px 70px}.layout{display:grid;grid-template-columns:240px 1fr 320px;gap:18px}.nav,.panel,.aside{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:18px}.nav a{display:block;color:#c8d6ff;text-decoration:none;padding:8px 0}.hero h1{margin:0 0 8px 0}.muted{color:var(--muted)}.chip{display:inline-block;padding:5px 10px;border-radius:999px;background:rgba(124,156,255,.15);margin-right:8px;margin-top:8px}.step{padding:12px;border-left:3px solid var(--accent);background:var(--panel);border-radius:12px;margin:10px 0}.table{width:100%;border-collapse:collapse}.table td,.table th{border:1px solid rgba(255,255,255,.08);padding:10px;vertical-align:top}.table th{background:rgba(255,255,255,.05)}.kpi{background:#121a30;border:1px solid rgba(255,255,255,.06);padding:12px;border-radius:14px;margin-bottom:10px}code,pre{white-space:pre-wrap;word-break:break-word}a{color:#c8d6ff}@media(max-width:1100px){.layout{grid-template-columns:1fr}.nav,.aside{order:2}}</style></head>
+<body><div class="wrap"><div class="layout"><aside class="nav"><h3>导航</h3><a href="#abs">0. 摘要翻译</a><a href="#motivation">1. 方法动机</a><a href="#design">2. 方法设计</a><a href="#compare">3. 与其他方法对比</a><a href="#exp">4. 实验表现与优势</a><a href="#apply">5. 学习与应用</a><a href="#summary">6. 总结</a><a href="#flow">7. 方法流程图</a></aside><main class="panel"><section class="hero"><h1>VLN-Cache: Enabling Token Caching for VLN Models with Visual/Semantic Dynamics Awareness</h1><div class="muted">自动精读页（这次 PDF 没吃进去，当前是摘要降级版，不算真精读）</div><div><span class="chip">摘要降级</span><span class="chip">HPCA-style</span><span class="chip">AI Infra</span></div></section>
+<section id="abs"><h2>0. 摘要翻译</h2><p>Vision-and-Language Navigation (VLN) increasingly relies on large vision-language models, but their inference cost conflicts with real-time deployment. Token caching is a promising training-free strategy that avoids redundant computation by reusing stable visual tokens across frames. However, existing methods assume a static camera and fixed semantic focus, assumptions that VLN fundamentally violates. We identify two failure modes: (1) visual dynamics, where viewpoint shift displaces token positions across frames, causing position-wise matching to pair misaligned content; (2) semantic dynamics, where token relevance shifts across task stages as navigation progresses, making cached states stale. We propose VLN-Cache, a visual-dynamic-aware and semantic-dynamic-aware caching framework that introduces view-aligned remapping to recover geometric correspondences and a task-relevance saliency filter to veto reuse at semantic transitions. A layer-adaptive entropy policy further balances the per-layer reuse budget. Experiments on the R2R-CE simulation benchmark show up to 1.52x speedup while maintaining competitive navigation success rates.</p><p class="muted">注：这次没成功吃到 PDF，当前是基于摘要的降级结果。</p><p><a href="https://arxiv.org/abs/2603.07080v1" target="_blank">摘要页</a> · <a href="https://arxiv.org/pdf/2603.07080v1.pdf" target="_blank">PDF</a></p></section>
+<section id="motivation"><h2>1. 方法动机</h2><p><b>1a 作者为什么提出这个方法：</b>Vision-and-Language Navigation (VLN) increasingly relies on large vision-language models, but their inference cost conflicts with real-time deployment.</p><p><b>1b 现有方法痛点/不足：</b>Token caching is a promising training-free strategy that avoids redundant computation by reusing stable visual tokens across frames.</p><p><b>1c 研究假设或核心直觉：</b>However, existing methods assume a static camera and fixed semantic focus, assumptions that VLN fundamentally violates.</p></section>
+<section id="design"><h2>2. 方法设计</h2>
+<div class="step"><b>Step 1</b><br>Vision-and-Language Navigation (VLN) increasingly relies on large vision-language models, but their inference cost conflicts with real-time deployment.</div>
+<div class="step"><b>Step 2</b><br>Token caching is a promising training-free strategy that avoids redundant computation by reusing stable visual tokens across frames.</div>
+<div class="step"><b>Step 3</b><br>However, existing methods assume a static camera and fixed semantic focus, assumptions that VLN fundamentally violates.</div>
+<div class="step"><b>Step 4</b><br>We identify two failure modes: (1) visual dynamics, where viewpoint shift displaces token positions across frames, causing position-wise matching to pair misaligned content;</div>
+<div class="step"><b>Step 5</b><br>(2) semantic dynamics, where token relevance shifts across task stages as navigation progresses, making cached states stale.</div>
+<p class="muted">方法主线判断：架构 / 内存系统 路线。当前模式：摘要降级；扫描页数：-。</p></section>
+<section id="compare"><h2>3. 与其他方法对比</h2><table class="table"><tr><th>维度</th><th>结论</th></tr><tr><td>主流方案</td><td>通常在系统瓶颈、资源利用率或扩展性上吃亏。</td></tr><tr><td>本文方法</td><td>更像是从系统路径或数据/执行布局上重新切刀。</td></tr><tr><td>创新点</td><td>偏内存/架构味，值得看是不是有真货而不是只会画图。</td></tr><tr><td>适用场景</td><td>架构 / 内存系统 路线</td></tr><tr><td>风险</td><td>如果摘要没写清 trade-off，那就要小心它把复杂度藏起来了。</td></tr></table></section>
+<section id="exp"><h2>4. 实验表现与优势</h2><p>- 当前可见证据主要来自摘要，说明作者声称方法在目标场景上有效。</p><p>- 但具体提升数字、baseline、公平性、实验设置，必须看 PDF 正文才能下刀。</p><p>- 快速检查清单：有没有和强 baseline 比；有没有端到端指标；有没有成本/延迟/吞吐一起报；有没有极端 case。</p><p class="muted">别被摘要吹晕，这是系统论文，不是许愿池。</p></section>
+<section id="apply"><h2>5. 学习与应用</h2><p>- 如果你要拿来做研究借鉴，先抓它的方法切分方式，不要先学包装词。</p><p>- 真正该抄的是：瓶颈建模、模块边界、关键优化点、实验对照设计。</p><p>- 如果后面接上 PDF 自动解析，这里可以继续补：开源状态、复现路径、关键超参/实现细节、可迁移任务。</p></section>
+<section id="summary"><h2>6. 总结</h2><p style="font-size:22px;font-weight:800">偏内存/架构味，值得看是不是有真货而不是</p><p>速记版：</p><p>1. 输入数据或请求进入系统<br>2. 做必要预处理与切分<br>3. 执行论文提出的核心机制<br>4. 通过系统层优化完成执行<br>5. 输出结果并衡量延迟/吞吐/成本</p><p class="muted">下一步建议：先看 PDF 的方法图、系统架构图、实验表 1 和 ablation，再决定值不值得深挖。</p></section>
+<section id="flow"><h2>7. 方法流程图</h2><h3>Plain-text numbered flow</h3><pre>1. 输入数据或请求进入系统
+2. 做必要预处理与切分
+3. 执行论文提出的核心机制
+4. 通过系统层优化完成执行
+5. 输出结果并衡量延迟/吞吐/成本</pre><h3>Draw.io draft nodes/edges</h3><pre>Nodes:
+- N1: 输入请求 / 数据 / workload
+- N2: 预处理与任务切分
+- N3: 核心方法模块
+- N4: 资源调度 / 存储 / 执行路径优化
+- N5: 输出结果与性能评估
+
+Edges:
+- N1 -&gt; N2
+- N2 -&gt; N3
+- N3 -&gt; N4
+- N4 -&gt; N5</pre><h3>Mermaid</h3><pre>flowchart TD
+  N1[输入请求/数据/workload] --> N2[预处理与任务切分]
+  N2 --> N3[核心方法模块]
+  N3 --> N4[资源调度/存储/执行路径优化]
+  N4 --> N5[输出结果与性能评估]</pre></section></main><aside class="aside"><h3>关键信息卡</h3><div class="kpi"><b>作者</b><div class="muted">Zihao Zheng, Zhihao Mao, Xingyue Zhou, Jiayu Chen, Maoliang Li</div></div><div class="kpi"><b>打分 / 层级</b><div class="muted">20 / 可扫</div></div><div class="kpi"><b>命中理由</b><div class="muted">+5 cache；+7 inference；-4 vision-language；+3 recent</div></div><div class="kpi"><b>一句话判断</b><div class="muted">偏内存/架构味，值得看是不是有真货而不是只会画图。</div></div><div class="kpi"><b>摘要页</b><div><a href="https://arxiv.org/abs/2603.07080v1" target="_blank">打开摘要页</a></div></div><div class="kpi"><b>PDF</b><div><a href="https://arxiv.org/pdf/2603.07080v1.pdf" target="_blank">打开 PDF</a></div></div></aside></div></div></body></html>

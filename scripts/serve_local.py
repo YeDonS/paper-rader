@@ -60,13 +60,22 @@ class Handler(SimpleHTTPRequestHandler):
                 pdf_path = pdf_mod.download(pdf_link, cache)
                 item['pdf_analysis'] = pdf_mod.analyze(pdf_path, title, payload.get('summary', ''))
             else:
-                item['pdf_analysis'] = {'mode': 'abstract', 'focus': render_mod.infer_focus(item)}
+                item['pdf_analysis'] = {'mode': 'abstract', 'focus': render_mod.infer_focus(item), 'error': 'missing pdf_link'}
             ON_DEMAND.mkdir(parents=True, exist_ok=True)
             slug = render_mod.slugify(title)
             out = ON_DEMAND / f'{slug}.html'
             html = render_mod.render_analysis_html(item)
             out.write_text(html)
-            return self.end_json(200, {'ok': True, 'path': f'./on-demand/{slug}.html', 'mode': item['pdf_analysis'].get('mode', 'abstract')})
+            pdfa = item.get('pdf_analysis') or {}
+            used_pdf = pdfa.get('mode') == 'pdf'
+            return self.end_json(200, {
+                'ok': True,
+                'path': f'./on-demand/{slug}.html',
+                'mode': pdfa.get('mode', 'abstract'),
+                'used_pdf': used_pdf,
+                'pages_scanned': pdfa.get('pages_scanned'),
+                'error': pdfa.get('error', ''),
+            })
         except Exception as e:
             return self.end_json(500, {'ok': False, 'error': str(e)})
 

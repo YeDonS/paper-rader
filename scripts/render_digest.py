@@ -197,6 +197,11 @@ def render_analysis_html(item):
     ]
     flow_edges = ['N1 -> N2', 'N2 -> N3', 'N3 -> N4', 'N4 -> N5']
     flow_plain = ['1. 输入数据或请求进入系统', '2. 做必要预处理与切分', '3. 执行论文提出的核心机制', '4. 通过系统层优化完成执行', '5. 输出结果并衡量延迟/吞吐/成本']
+    mode = pdfa.get('mode', 'abstract')
+    used_pdf = mode == 'pdf'
+    mode_label = 'PDF 深读' if used_pdf else '摘要降级'
+    hero_note = '自动精读页（已接入 PDF 正文抽取与结构化总结）' if used_pdf else '自动精读页（这次 PDF 没吃进去，当前是摘要降级版，不算真精读）'
+    abstract_note = '注：本页优先基于 PDF 正文抽取与结构化重写。' if used_pdf else '注：这次没成功吃到 PDF，当前是基于摘要的降级结果。'
     excerpt_block = f'<details><summary>正文摘录（自动抓取）</summary><pre>{html_escape(pdfa.get("raw_excerpt", ""))}</pre></details>' if pdfa.get('raw_excerpt') else ''
     exp_source = exp_pts[:4] if exp_pts else ['当前可见证据主要来自摘要，说明作者声称方法在目标场景上有效。', '但具体提升数字、baseline、公平性、实验设置，必须看 PDF 正文才能下刀。']
     exp_block = ''.join(f'<p>- {html_escape(x)}</p>' for x in exp_source)
@@ -204,8 +209,8 @@ def render_analysis_html(item):
     return f'''<!doctype html>
 <html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>{html_escape(title)} · 自动精读</title><style>
 :root{{--bg:#0b1020;--panel:#121a30;--soft:#1a2442;--text:#ecf2ff;--muted:#9fb0d1;--accent:#7c9cff;--good:#5bd6a1}}*{{box-sizing:border-box}}body{{margin:0;font-family:Inter,system-ui,sans-serif;background:radial-gradient(circle at top,#18254f 0,#0b1020 45%,#0b1020 100%);color:var(--text)}}.wrap{{max-width:1280px;margin:0 auto;padding:24px 20px 70px}}.layout{{display:grid;grid-template-columns:240px 1fr 320px;gap:18px}}.nav,.panel,.aside{{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:18px}}.nav a{{display:block;color:#c8d6ff;text-decoration:none;padding:8px 0}}.hero h1{{margin:0 0 8px 0}}.muted{{color:var(--muted)}}.chip{{display:inline-block;padding:5px 10px;border-radius:999px;background:rgba(124,156,255,.15);margin-right:8px;margin-top:8px}}.step{{padding:12px;border-left:3px solid var(--accent);background:var(--panel);border-radius:12px;margin:10px 0}}.table{{width:100%;border-collapse:collapse}}.table td,.table th{{border:1px solid rgba(255,255,255,.08);padding:10px;vertical-align:top}}.table th{{background:rgba(255,255,255,.05)}}.kpi{{background:#121a30;border:1px solid rgba(255,255,255,.06);padding:12px;border-radius:14px;margin-bottom:10px}}code,pre{{white-space:pre-wrap;word-break:break-word}}a{{color:#c8d6ff}}@media(max-width:1100px){{.layout{{grid-template-columns:1fr}}.nav,.aside{{order:2}}}}</style></head>
-<body><div class="wrap"><div class="layout"><aside class="nav"><h3>导航</h3><a href="#abs">0. 摘要翻译</a><a href="#motivation">1. 方法动机</a><a href="#design">2. 方法设计</a><a href="#compare">3. 与其他方法对比</a><a href="#exp">4. 实验表现与优势</a><a href="#apply">5. 学习与应用</a><a href="#summary">6. 总结</a><a href="#flow">7. 方法流程图</a></aside><main class="panel"><section class="hero"><h1>{html_escape(title)}</h1><div class="muted">自动精读页（当前基于 arXiv 标题 + 摘要生成，先能用，后面再接 PDF 深挖）</div><div>{tags}</div></section>
-<section id="abs"><h2>0. 摘要翻译</h2><p>{html_escape(summary)}</p><p class="muted">注：这里暂时是基于摘要做结构化重写，不是假装全文通灵。</p>{f'<p><a href="{html_escape(link)}" target="_blank">摘要页</a> · <a href="{html_escape(pdf_link)}" target="_blank">PDF</a></p>' if pdf_link else ''}</section>
+<body><div class="wrap"><div class="layout"><aside class="nav"><h3>导航</h3><a href="#abs">0. 摘要翻译</a><a href="#motivation">1. 方法动机</a><a href="#design">2. 方法设计</a><a href="#compare">3. 与其他方法对比</a><a href="#exp">4. 实验表现与优势</a><a href="#apply">5. 学习与应用</a><a href="#summary">6. 总结</a><a href="#flow">7. 方法流程图</a></aside><main class="panel"><section class="hero"><h1>{html_escape(title)}</h1><div class="muted">{html_escape(hero_note)}</div><div><span class="chip">{html_escape(mode_label)}</span>{tags}</div></section>
+<section id="abs"><h2>0. 摘要翻译</h2><p>{html_escape(summary)}</p><p class="muted">{html_escape(abstract_note)}</p>{f'<p><a href="{html_escape(link)}" target="_blank">摘要页</a> · <a href="{html_escape(pdf_link)}" target="_blank">PDF</a></p>' if pdf_link else ''}</section>
 <section id="motivation"><h2>1. 方法动机</h2><p><b>1a 作者为什么提出这个方法：</b>{html_escape(motivation_a)}</p><p><b>1b 现有方法痛点/不足：</b>{html_escape(motivation_b)}</p><p><b>1c 研究假设或核心直觉：</b>{html_escape(motivation_c)}</p></section>
 <section id="design"><h2>2. 方法设计</h2>
 <div class="step"><b>Step 1</b><br>{html_escape(steps[0])}</div>
@@ -213,7 +218,7 @@ def render_analysis_html(item):
 <div class="step"><b>Step 3</b><br>{html_escape(steps[2])}</div>
 <div class="step"><b>Step 4</b><br>{html_escape(steps[3])}</div>
 <div class="step"><b>Step 5</b><br>{html_escape(steps[4])}</div>
-<p class="muted">方法主线判断：{html_escape(focus)}。当前模式：{html_escape(pdfa.get('mode','abstract'))}；扫描页数：{html_escape(str(pdfa.get('pages_scanned','-')))}。</p>{excerpt_block}</section>
+<p class="muted">方法主线判断：{html_escape(focus)}。当前模式：{html_escape(mode_label)}；扫描页数：{html_escape(str(pdfa.get('pages_scanned','-')))}。</p>{excerpt_block}</section>
 <section id="compare"><h2>3. 与其他方法对比</h2><table class="table"><tr><th>维度</th><th>结论</th></tr><tr><td>主流方案</td><td>通常在系统瓶颈、资源利用率或扩展性上吃亏。</td></tr><tr><td>本文方法</td><td>更像是从系统路径或数据/执行布局上重新切刀。</td></tr><tr><td>创新点</td><td>{html_escape(one or '摘要里看得到有明确系统优化意图，但创新力度还得结合正文和实验细节判。')}</td></tr><tr><td>适用场景</td><td>{html_escape(focus)}</td></tr><tr><td>风险</td><td>如果摘要没写清 trade-off，那就要小心它把复杂度藏起来了。</td></tr></table></section>
 <section id="exp"><h2>4. 实验表现与优势</h2>{exp_block}<p>- 快速检查清单：有没有和强 baseline 比；有没有端到端指标；有没有成本/延迟/吞吐一起报；有没有极端 case。</p><p class="muted">别被摘要吹晕，这是系统论文，不是许愿池。</p></section>
 <section id="apply"><h2>5. 学习与应用</h2><p>- 如果你要拿来做研究借鉴，先抓它的方法切分方式，不要先学包装词。</p><p>- 真正该抄的是：瓶颈建模、模块边界、关键优化点、实验对照设计。</p><p>- 如果后面接上 PDF 自动解析，这里可以继续补：开源状态、复现路径、关键超参/实现细节、可迁移任务。</p></section>

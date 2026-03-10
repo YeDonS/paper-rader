@@ -106,114 +106,114 @@
 
 ## 必看
 
-### 必看-1. MoEless: Efficient MoE LLM Serving via Serverless Computing
-- score: 50
-- tags: OSDI/ATC/EuroSys-style, DAC/ICCAD-style, AI Infra
-- why: +5 latency；+8 serving；+7 inference；+10 llm serving；+6 moe；+3 recent；canon:Titan: A High-Performance Remote-Swap System / The Tail at Scale / BetrFS: A Right-Optimized Write-Optimized File System
-- take: 算是 AI infra 里比较像系统活的，能看。
-- link: https://arxiv.org/abs/2603.06350v1
-- pdf: https://arxiv.org/pdf/2603.06350v1.pdf
-- analysis: ./analysis/moeless-efficient-moe-llm-serving-via-serverless-computing.html
+### 必看-1. Mozart: Modularized and Efficient MoE Training on 3.5D Wafer-Scale Chiplet Architectures
+- score: 34
+- tags: HPCA-style, OSDI/ATC/EuroSys-style, AI Infra
+- why: +7 chiplet；+6 moe；+3 recent；+2 cat:cs.AR；canon:The Tail at Scale / Optimizing Datacenter Performance via CXL-Aware Memory Tiering / Tpp: Transparent Page Placement for CXL-Enabled Tiered-Memory
+- take: 偏内存/架构味，值得看是不是有真货而不是只会画图。
+- link: https://arxiv.org/abs/2603.07006v1
+- pdf: https://arxiv.org/pdf/2603.07006v1.pdf
+- analysis: ./analysis/mozart-modularized-and-efficient-moe-training-on-3-5d-wafer-scale-chiple.html
 
-### 必看-2. Tiny, Hardware-Independent, Compression-based Classification
-- score: 38
-- tags: FAST-style, OSDI/ATC/EuroSys-style, AI Infra
-- why: +8 storage；+4 zotero:storage；+3 recent；canon:PebblesDB: Building Key-Value Stores using Fragmented Log-Structured Merge Trees / Titan: A High-Performance Remote-Swap System / A Case for Tiny Tasks in Compute Clusters
-- take: 存储味比较正，先看 bottleneck 有没有抓对。
-- link: https://arxiv.org/abs/2603.06359v1
-- pdf: https://arxiv.org/pdf/2603.06359v1.pdf
-- analysis: ./analysis/tiny-hardware-independent-compression-based-classification.html
+### 必看-2. Scheduling Parallel Optical Circuit Switches for AI Training
+- score: 33
+- tags: HPCA-style, OSDI/ATC/EuroSys-style, DAC/ICCAD-style, AI Infra
+- why: +6 datacenter；+6 moe；+3 recent；canon:Optimizing Datacenter Performance via CXL-Aware Memory Tiering / RowClone: Fast and Energy-Efficient In-DRAM Bulk Data Copy and Initialization / SoftMC: A Flexible and Practical Open-Source Infrastructure for Enabling Experimental DRAM Studies
+- take: AI infra 方向，但得警惕是不是只是模型套壳。
+- link: https://arxiv.org/abs/2603.07373v1
+- pdf: https://arxiv.org/pdf/2603.07373v1.pdf
+- analysis: ./analysis/scheduling-parallel-optical-circuit-switches-for-ai-training.html
+
+### 必看-3. Explainable and Hardware-Efficient Jamming Detection for 5G Networks Using the Convolutional Tsetlin Machine
+- score: 28
+- tags: OSDI/ATC/EuroSys-style, AI Infra
+- why: +5 latency；+7 inference；+3 recent；+2 cat:cs.AR；canon:Titan: A High-Performance Remote-Swap System / Design Tradeoffs for SSD Performance / The Tail at Scale
+- take: 偏内存/架构味，值得看是不是有真货而不是只会画图。
+- link: https://arxiv.org/abs/2603.07336v1
+- pdf: https://arxiv.org/pdf/2603.07336v1.pdf
+- analysis: ./analysis/explainable-and-hardware-efficient-jamming-detection-for-5g-networks-usi.html
+
+### 必看-4. Configurable Runtime Orchestration for Dynamic Data Retrieval in Distributed Systems
+- score: 27
+- tags: OSDI/ATC/EuroSys-style
+- why: +7 distributed system；+5 latency；+3 recent；+2 cat:cs.DC；canon:Titan: A High-Performance Remote-Swap System / The Tail at Scale / A Case for Tiny Tasks in Compute Clusters
+- take: 先扫摘要和实验，别被标题党骗了。
+- link: https://arxiv.org/abs/2603.06980v1
+- pdf: https://arxiv.org/pdf/2603.06980v1.pdf
+- analysis: ./analysis/configurable-runtime-orchestration-for-dynamic-data-retrieval-in-distrib.html
+
+### 必看-5. A Miniature Brain Transformer: Thalamic Gating, Hippocampal Lateralization, Amygdaloid Salience, and Prefrontal Working Memory in Attention-Coupled Latent Memory
+- score: 27
+- tags: FAST-style
+- why: +7 persistent memory；+1 zotero:persistent；+3 recent；canon:Optimizing Datacenter Performance via CXL-Aware Memory Tiering / Tpp: Transparent Page Placement for CXL-Enabled Tiered-Memory / RowClone: Fast and Energy-Efficient In-DRAM Bulk Data Copy and Initialization
+- take: 偏内存/架构味，值得看是不是有真货而不是只会画图。
+- link: https://arxiv.org/abs/2603.07217v1
+- pdf: https://arxiv.org/pdf/2603.07217v1.pdf
+- analysis: ./analysis/a-miniature-brain-transformer-thalamic-gating-hippocampal-lateralization.html
 
 ## 可扫
 
-### 可扫-1. Semantics-Aware Caching for Concept Learning
-- score: 24
-- tags: HPCA-style, OSDI/ATC/EuroSys-style
-- why: +5 cache；+3 recent
-- take: 偏内存/架构味，值得看是不是有真货而不是只会画图。
-- link: https://arxiv.org/abs/2603.06506v1
-- pdf: https://arxiv.org/pdf/2603.06506v1.pdf
-- analysis: ./analysis/semantics-aware-caching-for-concept-learning.html
-
-### 可扫-2. FlashPrefill: Instantaneous Pattern Discovery and Thresholding for Ultra-Fast Long-Context Prefilling
-- score: 24
-- tags: FAST-style
-- why: +5 latency；+3 recent；canon:The Tail at Scale / SoftMC: A Flexible and Practical Open-Source Infrastructure for Enabling Experimental DRAM Studies
-- take: 先扫摘要和实验，别被标题党骗了。
-- link: https://arxiv.org/abs/2603.06199v1
-- pdf: https://arxiv.org/pdf/2603.06199v1.pdf
-- analysis: ./analysis/flashprefill-instantaneous-pattern-discovery-and-thresholding-for-ultra-.html
-
-### 可扫-3. Provuse: Platform-Side Function Fusion for Performance and Efficiency in FaaS Environments
-- score: 22
-- tags: OSDI/ATC/EuroSys-style
-- why: +5 latency；+3 recent；+2 cat:cs.DC；canon:Titan: A High-Performance Remote-Swap System / The Tail at Scale / A Case for Tiny Tasks in Compute Clusters
-- take: 先扫摘要和实验，别被标题党骗了。
-- link: https://arxiv.org/abs/2603.06170v1
-- pdf: https://arxiv.org/pdf/2603.06170v1.pdf
-- analysis: ./analysis/provuse-platform-side-function-fusion-for-performance-and-efficiency-in-.html
-
-### 可扫-4. Efficient Vector Search in the Wild: One Model for Multi-K Queries
-- score: 18
-- tags: AI Infra
-- why: +5 latency；+8 serving；+3 recent；canon:Monkey: Optimal Navigable Key-Value Store / Titan: A High-Performance Remote-Swap System / Learned Cache Replacement for Datacenter Storage Systems
-- take: AI infra 方向，但得警惕是不是只是模型套壳。
-- link: https://arxiv.org/abs/2603.06159v1
-- pdf: https://arxiv.org/pdf/2603.06159v1.pdf
-- analysis: ./analysis/efficient-vector-search-in-the-wild-one-model-for-multi-k-queries.html
-
-### 可扫-5. CLoPA: Continual Low Parameter Adaptation of Interactive Segmentation for Medical Image Annotation
-- score: 16
+### 可扫-1. VLN-Cache: Enabling Token Caching for VLN Models with Visual/Semantic Dynamics Awareness
+- score: 20
 - tags: HPCA-style, AI Infra
-- why: +5 cache；+7 inference；-8 medical image；+3 recent
+- why: +5 cache；+7 inference；-4 vision-language；+3 recent
 - take: 偏内存/架构味，值得看是不是有真货而不是只会画图。
-- link: https://arxiv.org/abs/2603.06426v1
-- pdf: https://arxiv.org/pdf/2603.06426v1.pdf
-- analysis: ./analysis/clopa-continual-low-parameter-adaptation-of-interactive-segmentation-for.html
+- link: https://arxiv.org/abs/2603.07080v1
+- pdf: https://arxiv.org/pdf/2603.07080v1.pdf
+- analysis: ./analysis/vln-cache-enabling-token-caching-for-vln-models-with-visual-semantic-dyn.html
 
-### 可扫-6. Adapter-Augmented Bandits for Online Multi-Constrained Multi-Modal Inference Scheduling
-- score: 15
-- tags: OSDI/ATC/EuroSys-style, AI Infra
-- why: +7 inference；+3 recent；canon:Titan: A High-Performance Remote-Swap System / SoftMC: A Flexible and Practical Open-Source Infrastructure for Enabling Experimental DRAM Studies
-- take: AI infra 方向，但得警惕是不是只是模型套壳。
-- link: https://arxiv.org/abs/2603.06403v1
-- pdf: https://arxiv.org/pdf/2603.06403v1.pdf
-- analysis: ./analysis/adapter-augmented-bandits-for-online-multi-constrained-multi-modal-infer.html
-
-### 可扫-7. EvoESAP: Non-Uniform Expert Pruning for Sparse MoE
-- score: 14
+### 可扫-2. Efficient Personalized Reranking with Semi-Autoregressive Generation and Online Knowledge Distillation
+- score: 17
 - tags: AI Infra
-- why: +5 throughput；+6 moe；+3 recent；canon:Titan: A High-Performance Remote-Swap System / Optimizing Datacenter Performance via CXL-Aware Memory Tiering / SoftMC: A Flexible and Practical Open-Source Infrastructure for Enabling Experimental DRAM Studies
-- take: 偏内存/架构味，值得看是不是有真货而不是只会画图。
-- link: https://arxiv.org/abs/2603.06003v1
-- pdf: https://arxiv.org/pdf/2603.06003v1.pdf
-- analysis: ./analysis/evoesap-non-uniform-expert-pruning-for-sparse-moe.html
+- why: +5 latency；+7 inference；+3 recent；canon:Titan: A High-Performance Remote-Swap System / The Tail at Scale / BetrFS: A Right-Optimized Write-Optimized File System
+- take: AI infra 方向，但得警惕是不是只是模型套壳。
+- link: https://arxiv.org/abs/2603.07107v1
+- pdf: https://arxiv.org/pdf/2603.07107v1.pdf
+- analysis: ./analysis/efficient-personalized-reranking-with-semi-autoregressive-generation-and.html
+
+### 可扫-3. SuperSkillsStack: Agency, Domain Knowledge, Imagination, and Taste in Human-AI Design Education
+- score: 17
+- tags: HPCA-style, DAC/ICCAD-style
+- why: +6 accelerator；-5 education；+3 recent；canon:Tpp: Transparent Page Placement for CXL-Enabled Tiered-Memory
+- take: 先扫摘要和实验，别被标题党骗了。
+- link: https://arxiv.org/abs/2603.07016v1
+- pdf: https://arxiv.org/pdf/2603.07016v1.pdf
+- analysis: ./analysis/superskillsstack-agency-domain-knowledge-imagination-and-taste-in-human-.html
+
+### 可扫-4. Foundational World Models Accurately Detect Bimanual Manipulator Failures
+- score: 14
+- tags: OSDI/ATC/EuroSys-style, AI Infra
+- why: +6 data center；+3 recent；canon:Titan: A High-Performance Remote-Swap System
+- take: AI infra 方向，但得警惕是不是只是模型套壳。
+- link: https://arxiv.org/abs/2603.06987v1
+- pdf: https://arxiv.org/pdf/2603.06987v1.pdf
+- analysis: ./analysis/foundational-world-models-accurately-detect-bimanual-manipulator-failure.html
 
 ## 先别看
 
-### 先别看-1. Whisper-CD: Accurate Long-Form Speech Recognition using Multi-Negative Contrastive Decoding
-- score: 10
-- tags: DAC/ICCAD-style, AI Infra
-- why: +5 throughput；+7 inference；+3 recent；canon:PebblesDB: Building Key-Value Stores using Fragmented Log-Structured Merge Trees / Titan: A High-Performance Remote-Swap System / Learned Cache Replacement for Datacenter Storage Systems
+### 先别看-1. AutoDataset: A Lightweight System for Continuous Dataset Discovery and Search
+- score: 13
+- tags: AI Infra
+- why: +5 latency；+7 inference；+3 recent；canon:PebblesDB: Building Key-Value Stores using Fragmented Log-Structured Merge Trees / SILK: Preventing Latency Spikes in Log-Structured Merge Key-Value Stores / SoftMC: A Flexible and Practical Open-Source Infrastructure for Enabling Experimental DRAM Studies
 - take: AI infra 方向，但得警惕是不是只是模型套壳。
-- link: https://arxiv.org/abs/2603.06193v1
-- pdf: https://arxiv.org/pdf/2603.06193v1.pdf
-- analysis: ./analysis/whisper-cd-accurate-long-form-speech-recognition-using-multi-negative-co.html
+- link: https://arxiv.org/abs/2603.07271v1
+- pdf: https://arxiv.org/pdf/2603.07271v1.pdf
+- analysis: ./analysis/autodataset-a-lightweight-system-for-continuous-dataset-discovery-and-se.html
 
-### 先别看-2. COLD-Steer: Steering Large Language Models via In-Context One-step Learning Dynamics
+### 先别看-2. AIReSim: A Discrete Event Simulator for Large-scale AI Cluster Reliability Modeling
+- score: 13
+- tags: OSDI/ATC/EuroSys-style
+- why: +3 recent；+2 cat:cs.DC；canon:Titan: A High-Performance Remote-Swap System / Design Tradeoffs for SSD Performance / A Case for Tiny Tasks in Compute Clusters
+- take: 先扫摘要和实验，别被标题党骗了。
+- link: https://arxiv.org/abs/2603.07041v1
+- pdf: https://arxiv.org/pdf/2603.07041v1.pdf
+- analysis: ./analysis/airesim-a-discrete-event-simulator-for-large-scale-ai-cluster-reliabilit.html
+
+### 先别看-3. Improving reasoning at inference time via uncertainty minimisation
 - score: 10
 - tags: OSDI/ATC/EuroSys-style, AI Infra
-- why: +7 inference；+3 recent；canon:RowClone: Fast and Energy-Efficient In-DRAM Bulk Data Copy and Initialization
+- why: +7 inference；+3 recent；canon:Titan: A High-Performance Remote-Swap System / SoftMC: A Flexible and Practical Open-Source Infrastructure for Enabling Experimental DRAM Studies
 - take: AI infra 方向，但得警惕是不是只是模型套壳。
-- link: https://arxiv.org/abs/2603.06495v1
-- pdf: https://arxiv.org/pdf/2603.06495v1.pdf
-- analysis: ./analysis/cold-steer-steering-large-language-models-via-in-context-one-step-learni.html
-
-### 先别看-3. An Integrated Failure and Threat Mode and Effect Analysis (FTMEA) Framework with Quantified Cross-Domain Correlation Factors for Automotive Semiconductors
-- score: 9
-- tags: General Systems
-- why: +3 recent；+2 cat:cs.AR；canon:WiscKey: Separating Keys from Values in SSD-Conscious Storage / PebblesDB: Building Key-Value Stores using Fragmented Log-Structured Merge Trees / Titan: A High-Performance Remote-Swap System
-- take: 先扫摘要和实验，别被标题党骗了。
-- link: https://arxiv.org/abs/2603.06299v1
-- pdf: https://arxiv.org/pdf/2603.06299v1.pdf
-- analysis: ./analysis/an-integrated-failure-and-threat-mode-and-effect-analysis-ftmea-framewor.html
+- link: https://arxiv.org/abs/2603.07159v1
+- pdf: https://arxiv.org/pdf/2603.07159v1.pdf
+- analysis: ./analysis/improving-reasoning-at-inference-time-via-uncertainty-minimisation.html

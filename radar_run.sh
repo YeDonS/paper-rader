@@ -12,6 +12,9 @@ if ! command -v python3 >/dev/null 2>&1; then
   exit 1
 fi
 
+echo "[0/4] 拉一下最新 GitHub 代码"
+git pull --ff-only origin main || true
+
 if [ -f requirements.txt ]; then
   echo "[1/4] 安装/确认依赖"
   python3 -m pip install --user -r requirements.txt
