@@ -2,6 +2,7 @@
 import importlib.util
 import json
 import mimetypes
+import subprocess
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
 from urllib.parse import urlparse
@@ -21,6 +22,7 @@ def load_module(path: Path, name: str):
 
 render_mod = load_module(ROOT / 'scripts' / 'render_digest.py', 'render_digest_mod')
 pdf_mod = load_module(ROOT / 'scripts' / 'pdf_deep_read.py', 'pdf_deep_read_mod')
+llm_mod = load_module(ROOT / 'scripts' / 'llm_deep_read.py', 'llm_deep_read_mod')
 
 
 class Handler(SimpleHTTPRequestHandler):
@@ -55,15 +57,32 @@ class Handler(SimpleHTTPRequestHandler):
             title = payload.get('title') or 'paper'
             pdf_link = payload.get('pdf_link') or ''
             item = dict(payload)
-            if pdf_link:
-                cache = pdf_mod.CACHE / f"{pdf_mod.slugify(title)}.pdf"
-                pdf_path = pdf_mod.download(pdf_link, cache)
-                item['pdf_analysis'] = pdf_mod.analyze(pdf_path, title, payload.get('summary', ''))
-            else:
-                item['pdf_analysis'] = {'mode': 'abstract', 'focus': render_mod.infer_focus(item), 'error': 'missing pdf_link'}
             ON_DEMAND.mkdir(parents=True, exist_ok=True)
             slug = render_mod.slugify(title)
             out = ON_DEMAND / f'{slug}.html'
+            if pdf_link:
+                cache = pdf_mod.CACHE / f"{pdf_mod.slugify(title)}.pdf"
+                pdf_path = pdf_mod.download(pdf_link, cache)
+                llm_res = json.loads(subprocess.check_output([
+                    'python3', str(ROOT / 'scripts' / 'llm_deep_read.py'),
+                    '--title', title,
+                    '--summary', payload.get('summary', ''),
+                    '--pdf', str(pdf_path)
+                ], text=True, timeout=360))
+                if llm_res.get('ok'):
+                    out.write_text(llm_res['html'])
+                    return self.end_json(200, {
+                        'ok': True,
+                        'path': f'./on-demand/{slug}.html',
+                        'mode': llm_res.get('mode', 'llm-pdf'),
+                        'used_pdf': True,
+                        'pages_scanned': llm_res.get('pages_scanned'),
+                        'error': ''
+                    })
+                item['pdf_analysis'] = pdf_mod.analyze(pdf_path, title, payload.get('summary', ''))
+                item['pdf_analysis']['error'] = llm_res.get('error', 'llm deep read failed')
+            else:
+                item['pdf_analysis'] = {'mode': 'abstract', 'focus': render_mod.infer_focus(item), 'error': 'missing pdf_link'}
             html = render_mod.render_analysis_html(item)
             out.write_text(html)
             pdfa = item.get('pdf_analysis') or {}

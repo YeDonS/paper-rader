@@ -31,7 +31,7 @@ def venue_tags(text):
         tags.append('OSDI/ATC/EuroSys-style')
     if any(k in t for k in ['eda','chip design','placement','routing','iccad','dac','hardware design']):
         tags.append('DAC/ICCAD-style')
-    if any(k in t for k in ['llm','inference','training','gpu','moe','serving']):
+    if any(k in t for k in ['llm','inference','training','gpu','moe','serving']) and any(k in t for k in ['system','runtime','cluster','scheduler','datacenter','throughput','latency','serving']):
         tags.append('AI Infra')
     return tags or ['General Systems']
 
@@ -64,7 +64,7 @@ def score_profile(tags, title, summary, raw_score, canonical_rows):
     if 'DAC/ICCAD-style' in tags:
         score += 2
     if 'AI Infra' in tags:
-        score -= 6
+        score -= 4
     if 'AI Infra' in tags and any(t in tags for t in ['FAST-style', 'HPCA-style', 'OSDI/ATC/EuroSys-style']):
         score += 3
     if any(k in text for k in ['storage','ssd','nvme','lsm','rocksdb','wisckey','filesystem','file system','tiered']):
@@ -73,6 +73,8 @@ def score_profile(tags, title, summary, raw_score, canonical_rows):
         score += 5
     if any(k in text for k in ['llm','diffusion','speech recognition','talking head']) and not any(k in text for k in ['storage','runtime','scheduler','cluster','serving']):
         score -= 5
+    if any(k in text for k in ['5g','wireless','rf','radio','jamming','signal block','ssb','fpga']) and not any(k in text for k in ['datacenter','storage','scheduler','runtime','memory system','serving','kv']):
+        score -= 18
     boost, matched = canonical_boost(title, summary, canonical_rows)
     score += boost
     return score, matched
