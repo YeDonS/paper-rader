@@ -9,14 +9,29 @@ OUT = ROOT / 'output'
 ARCH = OUT / 'archive'
 
 
+def copy_any(src: Path, dst: Path):
+    if not src.exists():
+        return
+    if src.is_dir():
+        if dst.exists():
+            shutil.rmtree(dst)
+        shutil.copytree(src, dst)
+    else:
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, dst)
+
+
 def main():
     ts = datetime.now().strftime('%Y-%m-%d')
     day = ARCH / ts
     day.mkdir(parents=True, exist_ok=True)
+
     for name in ['latest.json', 'latest.md', 'index.html', 'wisckey-analysis.html']:
         src = OUT / name
-        if src.exists():
-            shutil.copy2(src, day / name)
+        copy_any(src, day / name)
+
+    copy_any(OUT / 'analysis', day / 'analysis')
+
     index = ARCH / 'index.json'
     items = []
     if index.exists():

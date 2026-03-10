@@ -1,0 +1,12 @@
+{
+  "source": "/Users/ladorezr/Zotero/zotero.sqlite",
+  "weights": {
+    "storage": 8,
+    "wisckey": 6,
+    "ssd": 5,
+    "tiered": 3,
+    "simplessd": 3,
+    "persistent": 2,
+    "rocksdb": 2
+  }
+}

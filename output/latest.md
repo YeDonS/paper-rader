@@ -112,6 +112,8 @@
 - why: +5 latency；+8 serving；+7 inference；+10 llm serving；+6 moe；+3 recent；canon:Titan: A High-Performance Remote-Swap System / The Tail at Scale / BetrFS: A Right-Optimized Write-Optimized File System
 - take: 算是 AI infra 里比较像系统活的，能看。
 - link: https://arxiv.org/abs/2603.06350v1
+- pdf: https://arxiv.org/pdf/2603.06350v1.pdf
+- analysis: ./analysis/moeless-efficient-moe-llm-serving-via-serverless-computing.html
 
 ### 必看-2. Tiny, Hardware-Independent, Compression-based Classification
 - score: 38
@@ -119,6 +121,8 @@
 - why: +8 storage；+4 zotero:storage；+3 recent；canon:PebblesDB: Building Key-Value Stores using Fragmented Log-Structured Merge Trees / Titan: A High-Performance Remote-Swap System / A Case for Tiny Tasks in Compute Clusters
 - take: 存储味比较正，先看 bottleneck 有没有抓对。
 - link: https://arxiv.org/abs/2603.06359v1
+- pdf: https://arxiv.org/pdf/2603.06359v1.pdf
+- analysis: ./analysis/tiny-hardware-independent-compression-based-classification.html
 
 ## 可扫
 
@@ -128,6 +132,8 @@
 - why: +5 cache；+3 recent
 - take: 偏内存/架构味，值得看是不是有真货而不是只会画图。
 - link: https://arxiv.org/abs/2603.06506v1
+- pdf: https://arxiv.org/pdf/2603.06506v1.pdf
+- analysis: ./analysis/semantics-aware-caching-for-concept-learning.html
 
 ### 可扫-2. FlashPrefill: Instantaneous Pattern Discovery and Thresholding for Ultra-Fast Long-Context Prefilling
 - score: 24
@@ -135,6 +141,8 @@
 - why: +5 latency；+3 recent；canon:The Tail at Scale / SoftMC: A Flexible and Practical Open-Source Infrastructure for Enabling Experimental DRAM Studies
 - take: 先扫摘要和实验，别被标题党骗了。
 - link: https://arxiv.org/abs/2603.06199v1
+- pdf: https://arxiv.org/pdf/2603.06199v1.pdf
+- analysis: ./analysis/flashprefill-instantaneous-pattern-discovery-and-thresholding-for-ultra-.html
 
 ### 可扫-3. Provuse: Platform-Side Function Fusion for Performance and Efficiency in FaaS Environments
 - score: 22
@@ -142,6 +150,8 @@
 - why: +5 latency；+3 recent；+2 cat:cs.DC；canon:Titan: A High-Performance Remote-Swap System / The Tail at Scale / A Case for Tiny Tasks in Compute Clusters
 - take: 先扫摘要和实验，别被标题党骗了。
 - link: https://arxiv.org/abs/2603.06170v1
+- pdf: https://arxiv.org/pdf/2603.06170v1.pdf
+- analysis: ./analysis/provuse-platform-side-function-fusion-for-performance-and-efficiency-in-.html
 
 ### 可扫-4. Efficient Vector Search in the Wild: One Model for Multi-K Queries
 - score: 18
@@ -149,6 +159,8 @@
 - why: +5 latency；+8 serving；+3 recent；canon:Monkey: Optimal Navigable Key-Value Store / Titan: A High-Performance Remote-Swap System / Learned Cache Replacement for Datacenter Storage Systems
 - take: AI infra 方向，但得警惕是不是只是模型套壳。
 - link: https://arxiv.org/abs/2603.06159v1
+- pdf: https://arxiv.org/pdf/2603.06159v1.pdf
+- analysis: ./analysis/efficient-vector-search-in-the-wild-one-model-for-multi-k-queries.html
 
 ### 可扫-5. CLoPA: Continual Low Parameter Adaptation of Interactive Segmentation for Medical Image Annotation
 - score: 16
@@ -156,6 +168,8 @@
 - why: +5 cache；+7 inference；-8 medical image；+3 recent
 - take: 偏内存/架构味，值得看是不是有真货而不是只会画图。
 - link: https://arxiv.org/abs/2603.06426v1
+- pdf: https://arxiv.org/pdf/2603.06426v1.pdf
+- analysis: ./analysis/clopa-continual-low-parameter-adaptation-of-interactive-segmentation-for.html
 
 ### 可扫-6. Adapter-Augmented Bandits for Online Multi-Constrained Multi-Modal Inference Scheduling
 - score: 15
@@ -163,6 +177,8 @@
 - why: +7 inference；+3 recent；canon:Titan: A High-Performance Remote-Swap System / SoftMC: A Flexible and Practical Open-Source Infrastructure for Enabling Experimental DRAM Studies
 - take: AI infra 方向，但得警惕是不是只是模型套壳。
 - link: https://arxiv.org/abs/2603.06403v1
+- pdf: https://arxiv.org/pdf/2603.06403v1.pdf
+- analysis: ./analysis/adapter-augmented-bandits-for-online-multi-constrained-multi-modal-infer.html
 
 ### 可扫-7. EvoESAP: Non-Uniform Expert Pruning for Sparse MoE
 - score: 14
@@ -170,6 +186,8 @@
 - why: +5 throughput；+6 moe；+3 recent；canon:Titan: A High-Performance Remote-Swap System / Optimizing Datacenter Performance via CXL-Aware Memory Tiering / SoftMC: A Flexible and Practical Open-Source Infrastructure for Enabling Experimental DRAM Studies
 - take: 偏内存/架构味，值得看是不是有真货而不是只会画图。
 - link: https://arxiv.org/abs/2603.06003v1
+- pdf: https://arxiv.org/pdf/2603.06003v1.pdf
+- analysis: ./analysis/evoesap-non-uniform-expert-pruning-for-sparse-moe.html
 
 ## 先别看
 
@@ -179,6 +197,8 @@
 - why: +5 throughput；+7 inference；+3 recent；canon:PebblesDB: Building Key-Value Stores using Fragmented Log-Structured Merge Trees / Titan: A High-Performance Remote-Swap System / Learned Cache Replacement for Datacenter Storage Systems
 - take: AI infra 方向，但得警惕是不是只是模型套壳。
 - link: https://arxiv.org/abs/2603.06193v1
+- pdf: https://arxiv.org/pdf/2603.06193v1.pdf
+- analysis: ./analysis/whisper-cd-accurate-long-form-speech-recognition-using-multi-negative-co.html
 
 ### 先别看-2. COLD-Steer: Steering Large Language Models via In-Context One-step Learning Dynamics
 - score: 10
@@ -186,6 +206,8 @@
 - why: +7 inference；+3 recent；canon:RowClone: Fast and Energy-Efficient In-DRAM Bulk Data Copy and Initialization
 - take: AI infra 方向，但得警惕是不是只是模型套壳。
 - link: https://arxiv.org/abs/2603.06495v1
+- pdf: https://arxiv.org/pdf/2603.06495v1.pdf
+- analysis: ./analysis/cold-steer-steering-large-language-models-via-in-context-one-step-learni.html
 
 ### 先别看-3. An Integrated Failure and Threat Mode and Effect Analysis (FTMEA) Framework with Quantified Cross-Domain Correlation Factors for Automotive Semiconductors
 - score: 9
@@ -193,3 +215,5 @@
 - why: +3 recent；+2 cat:cs.AR；canon:WiscKey: Separating Keys from Values in SSD-Conscious Storage / PebblesDB: Building Key-Value Stores using Fragmented Log-Structured Merge Trees / Titan: A High-Performance Remote-Swap System
 - take: 先扫摘要和实验，别被标题党骗了。
 - link: https://arxiv.org/abs/2603.06299v1
+- pdf: https://arxiv.org/pdf/2603.06299v1.pdf
+- analysis: ./analysis/an-integrated-failure-and-threat-mode-and-effect-analysis-ftmea-framewor.html

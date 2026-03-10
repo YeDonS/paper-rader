@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 import argparse
+import html
 import json
+import re
 import shutil
 import subprocess
+import unicodedata
 from collections import Counter
 from pathlib import Path
 
@@ -11,8 +14,10 @@ RADAR = ROOT / 'scripts' / 'paper_radar.py'
 PERSONALIZE = ROOT / 'scripts' / 'personalize_from_zotero.py'
 CURATED = ROOT / 'scripts' / 'zotero_curated_pool.py'
 CANONICAL = ROOT / 'scripts' / 'build_canonical_pool.py'
+DEEP_READ = ROOT / 'scripts' / 'pdf_deep_read.py'
 ASSET = ROOT / 'assets' / 'dashboard.html'
 OUT = ROOT / 'output'
+ANALYSIS_DIR = OUT / 'analysis'
 
 
 def venue_tags(text):
@@ -109,6 +114,144 @@ def cap_ai_ratio(items, limit_ai=2):
     return out
 
 
+def slugify(text):
+    text = unicodedata.normalize('NFKD', text or '')
+    text = text.encode('ascii', 'ignore').decode('ascii').lower()
+    text = re.sub(r'[^a-z0-9]+', '-', text).strip('-')
+    return text[:72] or 'paper'
+
+
+def zh_summary(text):
+    s = (text or '').strip()
+    if not s:
+        return '暂无摘要，别硬脑补。'
+    return s
+
+
+def bullets_from_summary(summary):
+    raw = re.split(r'(?<=[\.!?;])\s+|(?<=[。！？；])', (summary or '').strip())
+    bullets = [x.strip(' -\n\t') for x in raw if x.strip()]
+    if not bullets:
+        bullets = [(summary or '').strip()]
+    return bullets[:6]
+
+
+def infer_focus(item):
+    tags = item.get('venue_tags') or []
+    text = f"{item.get('title','')}\n{item.get('summary','')}".lower()
+    if 'FAST-style' in tags:
+        return '存储 / KV / SSD 路线'
+    if 'HPCA-style' in tags:
+        return '架构 / 内存系统 路线'
+    if 'OSDI/ATC/EuroSys-style' in tags:
+        return '系统 / 集群 / 运行时 路线'
+    if 'AI Infra' in tags:
+        return 'AI Infra / Serving 路线'
+    if any(k in text for k in ['cache', 'memory', 'cxl', 'prefetch']):
+        return '内存层次 / cache 路线'
+    return '通用系统路线'
+
+
+def html_escape(s):
+    return html.escape(s or '', quote=True)
+
+
+def render_analysis_html(item):
+    title = item['title']
+    summary = zh_summary(item.get('summary'))
+    bullets = bullets_from_summary(summary)
+    pdfa = item.get('pdf_analysis') or {}
+    focus = pdfa.get('focus') or infer_focus(item)
+    tags = ''.join(f'<span class="chip">{html_escape(t)}</span>' for t in (item.get('venue_tags') or []))
+    authors = ', '.join(item.get('authors') or []) or '未知作者'
+    link = item.get('link') or ''
+    pdf_link = item.get('pdf_link') or ''
+    reasons = item.get('why') or ''
+    one = item.get('one_liner') or ''
+
+    intro_pts = pdfa.get('intro_points') or []
+    method_pts = pdfa.get('method_points') or []
+    exp_pts = pdfa.get('experiment_points') or []
+
+    motivation_a = intro_pts[0] if len(intro_pts) > 0 else (bullets[0] if len(bullets) > 0 else '作者想解决一个系统瓶颈问题。')
+    motivation_b = intro_pts[1] if len(intro_pts) > 1 else (bullets[1] if len(bullets) > 1 else '现有方案在效率、成本或可扩展性上有明显烂点。')
+    motivation_c = intro_pts[2] if len(intro_pts) > 2 else (bullets[2] if len(bullets) > 2 else '核心直觉是换个系统切分方式，把关键路径优化掉。')
+
+    steps = method_pts[:5] if method_pts else bullets[:5]
+    while len(steps) < 5:
+        defaults = [
+            '定义输入与系统目标，先把问题边界钉死。',
+            '设计核心模块或调度策略，压缩关键路径。',
+            '加入资源管理 / 一致性 / 容错处理。',
+            '输出结果并在目标 workload 上验证。',
+            '根据瓶颈做进一步工程优化。',
+        ]
+        steps.append(defaults[len(steps)])
+
+    flow_nodes = [
+        'N1: 输入请求 / 数据 / workload',
+        'N2: 预处理与任务切分',
+        'N3: 核心方法模块',
+        'N4: 资源调度 / 存储 / 执行路径优化',
+        'N5: 输出结果与性能评估',
+    ]
+    flow_edges = ['N1 -> N2', 'N2 -> N3', 'N3 -> N4', 'N4 -> N5']
+    flow_plain = ['1. 输入数据或请求进入系统', '2. 做必要预处理与切分', '3. 执行论文提出的核心机制', '4. 通过系统层优化完成执行', '5. 输出结果并衡量延迟/吞吐/成本']
+    excerpt_block = f'<details><summary>正文摘录（自动抓取）</summary><pre>{html_escape(pdfa.get("raw_excerpt", ""))}</pre></details>' if pdfa.get('raw_excerpt') else ''
+    exp_source = exp_pts[:4] if exp_pts else ['当前可见证据主要来自摘要，说明作者声称方法在目标场景上有效。', '但具体提升数字、baseline、公平性、实验设置，必须看 PDF 正文才能下刀。']
+    exp_block = ''.join(f'<p>- {html_escape(x)}</p>' for x in exp_source)
+
+    return f'''<!doctype html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>{html_escape(title)} · 自动精读</title><style>
+:root{{--bg:#0b1020;--panel:#121a30;--soft:#1a2442;--text:#ecf2ff;--muted:#9fb0d1;--accent:#7c9cff;--good:#5bd6a1}}*{{box-sizing:border-box}}body{{margin:0;font-family:Inter,system-ui,sans-serif;background:radial-gradient(circle at top,#18254f 0,#0b1020 45%,#0b1020 100%);color:var(--text)}}.wrap{{max-width:1280px;margin:0 auto;padding:24px 20px 70px}}.layout{{display:grid;grid-template-columns:240px 1fr 320px;gap:18px}}.nav,.panel,.aside{{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:18px}}.nav a{{display:block;color:#c8d6ff;text-decoration:none;padding:8px 0}}.hero h1{{margin:0 0 8px 0}}.muted{{color:var(--muted)}}.chip{{display:inline-block;padding:5px 10px;border-radius:999px;background:rgba(124,156,255,.15);margin-right:8px;margin-top:8px}}.step{{padding:12px;border-left:3px solid var(--accent);background:var(--panel);border-radius:12px;margin:10px 0}}.table{{width:100%;border-collapse:collapse}}.table td,.table th{{border:1px solid rgba(255,255,255,.08);padding:10px;vertical-align:top}}.table th{{background:rgba(255,255,255,.05)}}.kpi{{background:#121a30;border:1px solid rgba(255,255,255,.06);padding:12px;border-radius:14px;margin-bottom:10px}}code,pre{{white-space:pre-wrap;word-break:break-word}}a{{color:#c8d6ff}}@media(max-width:1100px){{.layout{{grid-template-columns:1fr}}.nav,.aside{{order:2}}}}</style></head>
+<body><div class="wrap"><div class="layout"><aside class="nav"><h3>导航</h3><a href="#abs">0. 摘要翻译</a><a href="#motivation">1. 方法动机</a><a href="#design">2. 方法设计</a><a href="#compare">3. 与其他方法对比</a><a href="#exp">4. 实验表现与优势</a><a href="#apply">5. 学习与应用</a><a href="#summary">6. 总结</a><a href="#flow">7. 方法流程图</a></aside><main class="panel"><section class="hero"><h1>{html_escape(title)}</h1><div class="muted">自动精读页（当前基于 arXiv 标题 + 摘要生成，先能用，后面再接 PDF 深挖）</div><div>{tags}</div></section>
+<section id="abs"><h2>0. 摘要翻译</h2><p>{html_escape(summary)}</p><p class="muted">注：这里暂时是基于摘要做结构化重写，不是假装全文通灵。</p>{f'<p><a href="{html_escape(link)}" target="_blank">摘要页</a> · <a href="{html_escape(pdf_link)}" target="_blank">PDF</a></p>' if pdf_link else ''}</section>
+<section id="motivation"><h2>1. 方法动机</h2><p><b>1a 作者为什么提出这个方法：</b>{html_escape(motivation_a)}</p><p><b>1b 现有方法痛点/不足：</b>{html_escape(motivation_b)}</p><p><b>1c 研究假设或核心直觉：</b>{html_escape(motivation_c)}</p></section>
+<section id="design"><h2>2. 方法设计</h2>
+<div class="step"><b>Step 1</b><br>{html_escape(steps[0])}</div>
+<div class="step"><b>Step 2</b><br>{html_escape(steps[1])}</div>
+<div class="step"><b>Step 3</b><br>{html_escape(steps[2])}</div>
+<div class="step"><b>Step 4</b><br>{html_escape(steps[3])}</div>
+<div class="step"><b>Step 5</b><br>{html_escape(steps[4])}</div>
+<p class="muted">方法主线判断：{html_escape(focus)}。当前模式：{html_escape(pdfa.get('mode','abstract'))}；扫描页数：{html_escape(str(pdfa.get('pages_scanned','-')))}。</p>{excerpt_block}</section>
+<section id="compare"><h2>3. 与其他方法对比</h2><table class="table"><tr><th>维度</th><th>结论</th></tr><tr><td>主流方案</td><td>通常在系统瓶颈、资源利用率或扩展性上吃亏。</td></tr><tr><td>本文方法</td><td>更像是从系统路径或数据/执行布局上重新切刀。</td></tr><tr><td>创新点</td><td>{html_escape(one or '摘要里看得到有明确系统优化意图，但创新力度还得结合正文和实验细节判。')}</td></tr><tr><td>适用场景</td><td>{html_escape(focus)}</td></tr><tr><td>风险</td><td>如果摘要没写清 trade-off，那就要小心它把复杂度藏起来了。</td></tr></table></section>
+<section id="exp"><h2>4. 实验表现与优势</h2>{exp_block}<p>- 快速检查清单：有没有和强 baseline 比；有没有端到端指标；有没有成本/延迟/吞吐一起报；有没有极端 case。</p><p class="muted">别被摘要吹晕，这是系统论文，不是许愿池。</p></section>
+<section id="apply"><h2>5. 学习与应用</h2><p>- 如果你要拿来做研究借鉴，先抓它的方法切分方式，不要先学包装词。</p><p>- 真正该抄的是：瓶颈建模、模块边界、关键优化点、实验对照设计。</p><p>- 如果后面接上 PDF 自动解析，这里可以继续补：开源状态、复现路径、关键超参/实现细节、可迁移任务。</p></section>
+<section id="summary"><h2>6. 总结</h2><p style="font-size:22px;font-weight:800">{html_escape((one or '摘要可看，但正文定生死。')[:20])}</p><p>速记版：</p><p>{'<br>'.join(html_escape(x) for x in flow_plain)}</p><p class="muted">下一步建议：先看 PDF 的方法图、系统架构图、实验表 1 和 ablation，再决定值不值得深挖。</p></section>
+<section id="flow"><h2>7. 方法流程图</h2><h3>Plain-text numbered flow</h3><pre>{html_escape(chr(10).join(flow_plain))}</pre><h3>Draw.io draft nodes/edges</h3><pre>Nodes:\n{html_escape(chr(10).join('- ' + x for x in flow_nodes))}\n\nEdges:\n{html_escape(chr(10).join('- ' + x for x in flow_edges))}</pre><h3>Mermaid</h3><pre>flowchart TD\n  N1[输入请求/数据/workload] --> N2[预处理与任务切分]\n  N2 --> N3[核心方法模块]\n  N3 --> N4[资源调度/存储/执行路径优化]\n  N4 --> N5[输出结果与性能评估]</pre></section></main><aside class="aside"><h3>关键信息卡</h3><div class="kpi"><b>作者</b><div class="muted">{html_escape(authors)}</div></div><div class="kpi"><b>打分 / 层级</b><div class="muted">{html_escape(str(item.get('score','')))} / {html_escape(item.get('tier',''))}</div></div><div class="kpi"><b>命中理由</b><div class="muted">{html_escape(reasons)}</div></div><div class="kpi"><b>一句话判断</b><div class="muted">{html_escape(one)}</div></div>{f'<div class="kpi"><b>摘要页</b><div><a href="{html_escape(link)}" target="_blank">打开摘要页</a></div></div>' if link else ''}{f'<div class="kpi"><b>PDF</b><div><a href="{html_escape(pdf_link)}" target="_blank">打开 PDF</a></div></div>' if pdf_link else ''}</aside></div></div></body></html>'''
+
+
+
+
+def enrich_with_pdf(item):
+    pdf_link = item.get('pdf_link')
+    if not pdf_link or not DEEP_READ.exists():
+        return item
+    try:
+        raw = subprocess.check_output([
+            'python3', str(DEEP_READ),
+            '--title', item.get('title',''),
+            '--pdf-url', pdf_link,
+            '--summary', item.get('summary','')
+        ], text=True, timeout=120)
+        item['pdf_analysis'] = json.loads(raw)
+    except Exception as e:
+        item['pdf_analysis'] = {'mode': 'abstract', 'error': str(e)}
+    return item
+
+def build_analysis_pages(items):
+    ANALYSIS_DIR.mkdir(parents=True, exist_ok=True)
+    seen = set()
+    for idx, item in enumerate(items, 1):
+        slug = slugify(item['title'])
+        if slug in seen:
+            slug = f'{slug}-{idx}'
+        seen.add(slug)
+        item['analysis_path'] = f'./analysis/{slug}.html'
+        html_doc = render_analysis_html(item)
+        (ANALYSIS_DIR / f'{slug}.html').write_text(html_doc)
+
+
 def main():
     ap = argparse.ArgumentParser(description='Render markdown digest + pretty dashboard for paper radar')
     ap.add_argument('--days', type=int, default=7)
@@ -144,6 +287,8 @@ def main():
             'title': e['title'],
             'authors': e['authors'][:5],
             'link': e['link'],
+            'pdf_link': (e['link'].replace('/abs/', '/pdf/') + '.pdf') if e.get('link') and '/abs/' in e['link'] else '',
+            'arxiv_id': e['link'].rstrip('/').split('/')[-1] if e.get('link') else '',
             'why': '；'.join(why),
             'venue_tags': tags,
             'one_liner': one_liner(e),
@@ -156,6 +301,10 @@ def main():
     prefer = [x for x in items if any(t in x['venue_tags'] for t in ['FAST-style', 'HPCA-style', 'OSDI/ATC/EuroSys-style']) or x['matched_canonical']]
     backup = [x for x in items if x not in prefer]
     items = (prefer + backup)[:args.top]
+    for idx, item in enumerate(items):
+        if idx < 5:
+            enrich_with_pdf(item)
+    build_analysis_pages(items)
 
     curated = []
     for row in curated_rows:
@@ -218,7 +367,7 @@ def main():
             continue
         md += [f'## {group}', '']
         for i, p in enumerate(subset, 1):
-            md += [f'### {group}-{i}. {p["title"]}', f'- score: {p["score"]}', f'- tags: {", ".join(p["venue_tags"])}', f'- why: {p["why"]}', f'- take: {p["one_liner"]}', f'- link: {p["link"]}', '']
+            md += [f'### {group}-{i}. {p["title"]}', f'- score: {p["score"]}', f'- tags: {", ".join(p["venue_tags"])}', f'- why: {p["why"]}', f'- take: {p["one_liner"]}', f'- link: {p["link"]}', f'- pdf: {p.get("pdf_link", "")}', f'- analysis: {p["analysis_path"]}', '']
     (OUT / 'latest.md').write_text('\n'.join(md))
     shutil.copy2(ASSET, OUT / 'index.html')
     try:

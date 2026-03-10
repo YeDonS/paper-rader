@@ -64,6 +64,7 @@ Representative papers can be rendered as structured analysis pages with:
 - experiment highlights
 - implementation notes
 - methodology flowcharts
+- PDF-backed deep reading for top papers (automatic download + section extraction)
 
 ### 6. Daily archive snapshots
 Generated results are archived by date so that papers missed on one day remain accessible later.
@@ -106,6 +107,7 @@ scripts/      ranking, rendering, Zotero integration, automation
 Build the site:
 
 ```bash
+python3 -m pip install --user -r requirements.txt
 python3 scripts/build_site.py
 ```
 

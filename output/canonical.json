@@ -1,0 +1,359 @@
+[
+  {
+    "id": "canon-1",
+    "title": "WiscKey: Separating Keys from Values in SSD-Conscious Storage",
+    "venue": "FAST",
+    "year": 2016,
+    "venue_tags": [
+      "FAST-style"
+    ],
+    "keywords": [
+      "storage",
+      "kv",
+      "lsm",
+      "wisckey",
+      "separating",
+      "keys",
+      "from",
+      "values",
+      "conscious"
+    ],
+    "tier": "白名单",
+    "score": 99,
+    "one_liner": "键值分离的代表作，LSM/SSD 方向绕不过去。",
+    "why": "FAST 2016；storage, kv, lsm"
+  },
+  {
+    "id": "canon-2",
+    "title": "Monkey: Optimal Navigable Key-Value Store",
+    "venue": "SIGMOD",
+    "year": 2017,
+    "venue_tags": [
+      "FAST-style"
+    ],
+    "keywords": [
+      "storage",
+      "lsm",
+      "filters",
+      "monkey",
+      "optimal",
+      "navigable",
+      "value",
+      "store"
+    ],
+    "tier": "白名单",
+    "score": 98,
+    "one_liner": "LSM 读放大与布隆过滤器分配的经典工作。",
+    "why": "SIGMOD 2017；storage, lsm, filters"
+  },
+  {
+    "id": "canon-3",
+    "title": "PebblesDB: Building Key-Value Stores using Fragmented Log-Structured Merge Trees",
+    "venue": "SOSP",
+    "year": 2017,
+    "venue_tags": [
+      "FAST-style"
+    ],
+    "keywords": [
+      "storage",
+      "kv",
+      "lsm",
+      "pebblesdb",
+      "building",
+      "value",
+      "stores",
+      "using",
+      "fragmented",
+      "structured",
+      "merge",
+      "trees"
+    ],
+    "tier": "白名单",
+    "score": 97,
+    "one_liner": "LSM 结构改造的代表作，适合和 WiscKey 对照着看。",
+    "why": "SOSP 2017；storage, kv, lsm"
+  },
+  {
+    "id": "canon-4",
+    "title": "Titan: A High-Performance Remote-Swap System",
+    "venue": "FAST",
+    "year": 2020,
+    "venue_tags": [
+      "FAST-style",
+      "HPCA-style",
+      "OSDI/ATC/EuroSys-style"
+    ],
+    "keywords": [
+      "storage",
+      "memory",
+      "systems",
+      "titan",
+      "high",
+      "performance",
+      "remote",
+      "swap",
+      "system"
+    ],
+    "tier": "白名单",
+    "score": 96,
+    "one_liner": "FAST 味很正，系统与存储交叉。",
+    "why": "FAST 2020；storage, memory, systems"
+  },
+  {
+    "id": "canon-5",
+    "title": "Design Tradeoffs for SSD Performance",
+    "venue": "USENIX ATC",
+    "year": 2008,
+    "venue_tags": [
+      "FAST-style"
+    ],
+    "keywords": [
+      "storage",
+      "ssd",
+      "design",
+      "tradeoffs",
+      "performance"
+    ],
+    "tier": "白名单",
+    "score": 95,
+    "one_liner": "SSD 设计空间的老经典。",
+    "why": "USENIX ATC 2008；storage, ssd"
+  },
+  {
+    "id": "canon-6",
+    "title": "Learned Cache Replacement for Datacenter Storage Systems",
+    "venue": "OSDI",
+    "year": 2020,
+    "venue_tags": [
+      "FAST-style",
+      "OSDI/ATC/EuroSys-style"
+    ],
+    "keywords": [
+      "storage",
+      "systems",
+      "cache",
+      "learned",
+      "replacement",
+      "datacenter"
+    ],
+    "tier": "白名单",
+    "score": 94,
+    "one_liner": "系统味较强，数据中心存储方向。",
+    "why": "OSDI 2020；storage, systems, cache"
+  },
+  {
+    "id": "canon-7",
+    "title": "The Tail at Scale",
+    "venue": "CACM",
+    "year": 2013,
+    "venue_tags": [
+      "OSDI/ATC/EuroSys-style"
+    ],
+    "keywords": [
+      "systems",
+      "datacenter",
+      "latency",
+      "tail",
+      "scale"
+    ],
+    "tier": "白名单",
+    "score": 93,
+    "one_liner": "系统性能分析与延迟思维的必读经典。",
+    "why": "CACM 2013；systems, datacenter, latency"
+  },
+  {
+    "id": "canon-8",
+    "title": "A Case for Tiny Tasks in Compute Clusters",
+    "venue": "HotOS",
+    "year": 2013,
+    "venue_tags": [
+      "OSDI/ATC/EuroSys-style"
+    ],
+    "keywords": [
+      "systems",
+      "datacenter",
+      "case",
+      "tiny",
+      "tasks",
+      "compute",
+      "clusters"
+    ],
+    "tier": "白名单",
+    "score": 92,
+    "one_liner": "系统基础设施调度思路的经典小文。",
+    "why": "HotOS 2013；systems, datacenter"
+  },
+  {
+    "id": "canon-9",
+    "title": "Optimizing Datacenter Performance via CXL-Aware Memory Tiering",
+    "venue": "HPCA",
+    "year": 2024,
+    "venue_tags": [
+      "HPCA-style"
+    ],
+    "keywords": [
+      "architecture",
+      "memory",
+      "cxl",
+      "optimizing",
+      "datacenter",
+      "performance",
+      "aware",
+      "tiering"
+    ],
+    "tier": "白名单",
+    "score": 91,
+    "one_liner": "偏你感兴趣的内存/架构/CXL 路线。",
+    "why": "HPCA 2024；architecture, memory, cxl"
+  },
+  {
+    "id": "canon-10",
+    "title": "BetrFS: A Right-Optimized Write-Optimized File System",
+    "venue": "FAST",
+    "year": 2015,
+    "venue_tags": [
+      "FAST-style"
+    ],
+    "keywords": [
+      "storage",
+      "filesystem",
+      "betrfs",
+      "right",
+      "optimized",
+      "write",
+      "file",
+      "system"
+    ],
+    "tier": "白名单",
+    "score": 90,
+    "one_liner": "写优化文件系统的代表性工作。",
+    "why": "FAST 2015；storage, filesystem"
+  },
+  {
+    "id": "canon-11",
+    "title": "SILK: Preventing Latency Spikes in Log-Structured Merge Key-Value Stores",
+    "venue": "FAST",
+    "year": 2019,
+    "venue_tags": [
+      "FAST-style"
+    ],
+    "keywords": [
+      "storage",
+      "kv",
+      "lsm",
+      "silk",
+      "preventing",
+      "latency",
+      "spikes",
+      "structured",
+      "merge",
+      "value",
+      "stores"
+    ],
+    "tier": "白名单",
+    "score": 89,
+    "one_liner": "LSM 延迟毛刺问题，非常贴近工程痛点。",
+    "why": "FAST 2019；storage, kv, lsm"
+  },
+  {
+    "id": "canon-12",
+    "title": "LOCATOR: A Key-Value Store for Hybrid-Cloud Workloads",
+    "venue": "FAST",
+    "year": 2023,
+    "venue_tags": [
+      "FAST-style",
+      "OSDI/ATC/EuroSys-style"
+    ],
+    "keywords": [
+      "storage",
+      "systems",
+      "kv",
+      "locator",
+      "value",
+      "store",
+      "hybrid",
+      "cloud",
+      "workloads"
+    ],
+    "tier": "白名单",
+    "score": 88,
+    "one_liner": "更现代的存储系统视角。",
+    "why": "FAST 2023；storage, systems, kv"
+  },
+  {
+    "id": "canon-13",
+    "title": "Tpp: Transparent Page Placement for CXL-Enabled Tiered-Memory",
+    "venue": "HPCA",
+    "year": 2024,
+    "venue_tags": [
+      "HPCA-style"
+    ],
+    "keywords": [
+      "architecture",
+      "memory",
+      "cxl",
+      "transparent",
+      "page",
+      "placement",
+      "enabled",
+      "tiered"
+    ],
+    "tier": "白名单",
+    "score": 87,
+    "one_liner": "CXL 分层内存方向，挺对你胃口。",
+    "why": "HPCA 2024；architecture, memory, cxl"
+  },
+  {
+    "id": "canon-14",
+    "title": "RowClone: Fast and Energy-Efficient In-DRAM Bulk Data Copy and Initialization",
+    "venue": "MICRO",
+    "year": 2013,
+    "venue_tags": [
+      "HPCA-style"
+    ],
+    "keywords": [
+      "architecture",
+      "memory",
+      "rowclone",
+      "fast",
+      "energy",
+      "efficient",
+      "dram",
+      "bulk",
+      "data",
+      "copy",
+      "initialization"
+    ],
+    "tier": "白名单",
+    "score": 86,
+    "one_liner": "内存系统经典，适合和现代 memory tiering 一起看。",
+    "why": "MICRO 2013；architecture, memory"
+  },
+  {
+    "id": "canon-15",
+    "title": "SoftMC: A Flexible and Practical Open-Source Infrastructure for Enabling Experimental DRAM Studies",
+    "venue": "HPCA",
+    "year": 2017,
+    "venue_tags": [
+      "HPCA-style"
+    ],
+    "keywords": [
+      "architecture",
+      "memory",
+      "softmc",
+      "flexible",
+      "practical",
+      "open",
+      "source",
+      "infrastructure",
+      "enabling",
+      "experimental",
+      "dram",
+      "studies"
+    ],
+    "tier": "白名单",
+    "score": 85,
+    "one_liner": "偏架构实验基础设施，味道很正。",
+    "why": "HPCA 2017；architecture, memory"
+  }
+]

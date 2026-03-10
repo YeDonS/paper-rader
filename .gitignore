@@ -7,3 +7,5 @@ output/archive/
 *.sqlite
 *.db
 input/
+
+output/pdf_cache/
